@@ -1,0 +1,180 @@
+{
+  "generatedAt": "2026-10-12T19:58:01.893Z",
+  "candidateCount": 25,
+  "jobCount": 25,
+  "candidateJobPairs": 625,
+  "averageMatchPercentage": 16.28,
+  "matchesAtLeast70Percent": 8,
+  "perfectMatches": 8,
+  "matchScoreDistribution": {
+    "100": 8,
+    "0-24": 377,
+    "25-49": 140,
+    "50-69": 100,
+    "70-99": 0
+  },
+  "mostDemandedSkills": [
+    {
+      "skill": "aws",
+      "jobCount": 6
+    },
+    {
+      "skill": "communication",
+      "jobCount": 6
+    },
+    {
+      "skill": "docker",
+      "jobCount": 6
+    },
+    {
+      "skill": "r",
+      "jobCount": 6
+    },
+    {
+      "skill": "nlp",
+      "jobCount": 5
+    },
+    {
+      "skill": "ui/ux design",
+      "jobCount": 5
+    },
+    {
+      "skill": "git",
+      "jobCount": 4
+    },
+    {
+      "skill": "javascript",
+      "jobCount": 4
+    },
+    {
+      "skill": "python",
+      "jobCount": 4
+    },
+    {
+      "skill": "cybersecurity",
+      "jobCount": 3
+    },
+    {
+      "skill": "java",
+      "jobCount": 3
+    },
+    {
+      "skill": "sql",
+      "jobCount": 3
+    },
+    {
+      "skill": "teamwork",
+      "jobCount": 3
+    },
+    {
+      "skill": "tensorflow",
+      "jobCount": 3
+    },
+    {
+      "skill": "azure",
+      "jobCount": 2
+    },
+    {
+      "skill": "figma",
+      "jobCount": 2
+    },
+    {
+      "skill": "kubernetes",
+      "jobCount": 1
+    },
+    {
+      "skill": "machine learning",
+      "jobCount": 1
+    },
+    {
+      "skill": "networking",
+      "jobCount": 1
+    },
+    {
+      "skill": "react",
+      "jobCount": 1
+    }
+  ],
+  "mostCommonCandidateSkills": [
+    {
+      "skill": "machine learning",
+      "candidateCount": 8
+    },
+    {
+      "skill": "javascript",
+      "candidateCount": 6
+    },
+    {
+      "skill": "react",
+      "candidateCount": 6
+    },
+    {
+      "skill": "aws",
+      "candidateCount": 5
+    },
+    {
+      "skill": "azure",
+      "candidateCount": 5
+    },
+    {
+      "skill": "kubernetes",
+      "candidateCount": 5
+    },
+    {
+      "skill": "r",
+      "candidateCount": 5
+    },
+    {
+      "skill": "tensorflow",
+      "candidateCount": 5
+    },
+    {
+      "skill": "ui/ux design",
+      "candidateCount": 5
+    },
+    {
+      "skill": "java",
+      "candidateCount": 4
+    },
+    {
+      "skill": "python",
+      "candidateCount": 4
+    },
+    {
+      "skill": "communication",
+      "candidateCount": 3
+    },
+    {
+      "skill": "cybersecurity",
+      "candidateCount": 3
+    },
+    {
+      "skill": "docker",
+      "candidateCount": 3
+    },
+    {
+      "skill": "figma",
+      "candidateCount": 3
+    },
+    {
+      "skill": "git",
+      "candidateCount": 3
+    },
+    {
+      "skill": "networking",
+      "candidateCount": 3
+    },
+    {
+      "skill": "nlp",
+      "candidateCount": 3
+    },
+    {
+      "skill": "sql",
+      "candidateCount": 3
+    },
+    {
+      "skill": "teamwork",
+      "candidateCount": 3
+    }
+  ]
+}
