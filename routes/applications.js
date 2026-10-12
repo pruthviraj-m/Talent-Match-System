@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 
 const Application = require("../models/application");
 const Candidate = require("../models/candidate");
-const Job = require("../models/Job");
+const Job = require("../models/job");
 const { protect, allowRoles } = require("../middleware/auth");
 
 const router = express.Router();

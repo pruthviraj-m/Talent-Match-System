@@ -1,7 +1,7 @@
 const express = require("express");
 
 const Candidate = require("../models/candidate");
-const Job = require("../models/Job");
+const Job = require("../models/job");
 const Application = require("../models/application");
 const { protect, allowRoles } = require("../middleware/auth");
 
