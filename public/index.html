@@ -1,0 +1,523 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TalentMatch — Recruitment Intelligence</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap');
+
+:root {
+  --bg:#f6f7f4;--surface:#fff;--text:#202720;--muted:#737b73;
+  --line:#e6e9e3;--green:#52785d;--green-dark:#365940;
+  --green-light:#e7efe6;--plum:#593d68;--plum-dark:#3d2949;
+  --plum-light:#f0e8f4;--danger:#b44747;--amber:#a76a24;
+  --shadow:0 12px 35px rgba(33,43,33,.055);
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif}
+button,input,select,textarea{font:inherit}
+button{cursor:pointer}
+button:disabled{opacity:.55;cursor:not-allowed}
+.app{min-height:100vh}
+.topbar{height:76px;background:#fff;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 5%;gap:18px}
+.brand{display:flex;align-items:center;gap:11px;font-family:Manrope,sans-serif;font-size:21px;font-weight:800;letter-spacing:-.7px}
+.brand-mark{width:36px;height:36px;border-radius:12px;background:var(--green);color:white;display:grid;place-items:center;font-weight:800}
+.brand span:last-child em{font-style:normal;color:var(--green)}
+.top-right{display:flex;align-items:center;gap:12px}
+.small-muted{font-size:12px;color:var(--muted)}
+.page{max-width:1250px;margin:0 auto;padding:36px 25px 65px}
+.eyebrow{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.6px;color:var(--green)}
+h1,h2,h3,p{margin-top:0}
+h1,h2,h3{font-family:Manrope,sans-serif;letter-spacing:-.7px}
+h1{font-size:clamp(29px,4vw,42px);margin:10px 0}
+h2{font-size:24px}
+h3{font-size:16px}
+.muted{color:var(--muted)}
+.subtitle{color:var(--muted);line-height:1.7;max-width:680px}
+.btn{border:0;border-radius:10px;padding:11px 16px;font-weight:700;font-size:13px;transition:.15s}
+.btn:hover{filter:brightness(.96);transform:translateY(-1px)}
+.btn-primary{background:var(--green);color:#fff}
+.btn-plum{background:var(--plum);color:#fff}
+.btn-light{background:#f0f2ed;color:#344034}
+.btn-outline{background:white;border:1px solid var(--line);color:var(--text)}
+.btn-danger{background:#fae9e7;color:#9d3434}
+.btn-sm{padding:8px 11px;font-size:12px}
+.full{width:100%}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:17px;padding:22px;box-shadow:var(--shadow)}
+.grid{display:grid;gap:18px}
+.stats{grid-template-columns:repeat(4,minmax(0,1fr));margin:25px 0}
+.stat-label{font-size:12px;color:var(--muted);font-weight:600}
+.stat-number{font-family:Manrope,sans-serif;font-size:29px;font-weight:800;margin:11px 0 5px}
+.stat-note{font-size:11px;color:var(--muted)}
+.two-col{grid-template-columns:minmax(0,1.4fr) minmax(280px,.8fr)}
+.section-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:17px}
+.section-head h2{margin:0;font-size:20px}
+.stack{display:grid;gap:13px}
+.field{display:grid;gap:7px}
+.field label{font-size:12px;font-weight:700;color:#454d45}
+.field input,.field select,.field textarea,.search{width:100%;border:1px solid #dfe4dc;border-radius:10px;padding:12px 13px;background:white;outline:none;color:var(--text)}
+.field input:focus,.field select:focus,.field textarea:focus,.search:focus{border-color:var(--green);box-shadow:0 0 0 3px #52785d16}
+.field textarea{resize:vertical;min-height:85px}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:13px}
+.span-2{grid-column:1/-1}
+.auth-wrap{max-width:1040px;margin:44px auto;padding:20px}
+.auth-card{display:grid;grid-template-columns:1fr 1fr;background:white;border:1px solid var(--line);border-radius:24px;overflow:hidden;box-shadow:var(--shadow);min-height:560px}
+.auth-art{background:var(--green-dark);color:white;padding:45px 36px;display:flex;flex-direction:column;justify-content:space-between;position:relative;overflow:hidden}
+.auth-art.recruiter-art{background:var(--plum-dark)}
+.auth-art h1{font-size:35px;line-height:1.18}
+.auth-art p{color:#ffffffbf;line-height:1.8}
+.art-orb{width:190px;height:190px;border:1px solid #ffffff3d;border-radius:50%;position:absolute;right:-45px;bottom:95px}
+.art-orb:after{content:"";position:absolute;width:120px;height:120px;border:1px solid #ffffff4b;border-radius:50%;top:34px;left:34px}
+.auth-form{padding:38px 36px}
+.tabs{display:flex;gap:6px;padding:5px;background:#f2f3ef;border-radius:11px;margin:20px 0}
+.tab{flex:1;border:0;border-radius:8px;padding:10px 7px;background:transparent;color:var(--muted);font-weight:700;font-size:12px}
+.tab.active{background:white;color:var(--text);box-shadow:0 2px 8px #0000000a}
+.role-switch{display:flex;gap:8px;margin:16px 0}
+.role-choice{flex:1;border:1px solid var(--line);background:#fff;border-radius:10px;padding:11px;font-size:12px;font-weight:700}
+.role-choice.active{border-color:var(--green);background:var(--green-light);color:var(--green-dark)}
+.role-choice.recruiter.active{border-color:var(--plum);background:var(--plum-light);color:var(--plum-dark)}
+.hidden{display:none!important}
+.notice{border-radius:10px;padding:12px 14px;font-size:13px;line-height:1.5;margin:12px 0}
+.notice.error{background:#fff0ef;color:#9f3636}
+.notice.success{background:#edf7ed;color:#2e6938}
+.notice.info{background:#edf2f9;color:#345d88}
+.dashboard-header{display:flex;justify-content:space-between;align-items:flex-start;gap:20px;flex-wrap:wrap}
+.badge{display:inline-flex;align-items:center;border-radius:100px;padding:5px 9px;font-size:11px;font-weight:700;background:#edf0eb;color:#596359}
+.badge.green{background:var(--green-light);color:var(--green-dark)}
+.badge.plum{background:var(--plum-light);color:var(--plum-dark)}
+.badge.amber{background:#fff1dc;color:#885718}
+.badge.red{background:#fae8e7;color:#a23a3a}
+.skill-list{display:flex;gap:7px;flex-wrap:wrap;margin:13px 0}
+.skill{font-size:11px;border-radius:7px;padding:6px 8px;background:#f0f2ed;color:#4e594e}
+.skill.matched{background:#e3f2e4;color:#286b35}
+.skill.missing{background:#fff0e4;color:#995822}
+.job-card{border:1px solid var(--line);border-radius:14px;padding:18px;margin-bottom:12px}
+.job-top{display:flex;justify-content:space-between;gap:15px}
+.job-card h3{margin:0 0 7px;font-size:17px}
+.job-meta{display:flex;gap:12px;flex-wrap:wrap;font-size:12px;color:var(--muted);margin:10px 0}
+.job-description{font-size:13px;color:#687168;line-height:1.6;margin:12px 0}
+.match-line{display:flex;align-items:center;gap:10px;margin:12px 0}
+.progress{height:7px;background:#edf0ea;border-radius:20px;overflow:hidden;flex:1}
+.progress span{display:block;height:100%;background:var(--green);border-radius:20px}
+.progress.plum span{background:var(--plum)}
+.match-value{font-size:13px;font-weight:800;min-width:45px;text-align:right}
+.table-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:12px}
+th,td{padding:13px 11px;text-align:left;border-bottom:1px solid var(--line);vertical-align:middle}
+th{font-size:10px;text-transform:uppercase;letter-spacing:.8px;color:var(--muted);font-weight:700}
+td{line-height:1.5}
+td strong{font-size:12px}
+.empty{text-align:center;padding:35px 15px;color:var(--muted);font-size:13px}
+.empty .empty-icon{font-size:29px;margin-bottom:10px}
+.toolbar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:18px}
+.toolbar .search{max-width:350px}
+.nav-tabs{display:flex;gap:5px;overflow-x:auto;margin:25px 0 20px;border-bottom:1px solid var(--line)}
+.nav-tab{border:0;background:transparent;padding:13px 15px;color:var(--muted);font-weight:700;font-size:12px;white-space:nowrap;border-bottom:2px solid transparent}
+.nav-tab.active{color:var(--green-dark);border-bottom-color:var(--green)}
+.recruiter-theme .nav-tab.active{color:var(--plum);border-bottom-color:var(--plum)}
+.recruiter-theme .eyebrow{color:var(--plum)}
+.recruiter-theme .stat-number{color:var(--plum-dark)}
+.recruiter-theme .brand-mark{background:var(--plum)}
+.recruiter-theme .brand span:last-child em{color:var(--plum)}
+.recruiter-theme .nav-tab.active{color:var(--plum);border-bottom-color:var(--plum)}
+.recruiter-theme .btn-primary{background:var(--plum)}
+.recruiter-theme .badge.green{background:var(--plum-light);color:var(--plum-dark)}
+.recruiter-theme .progress span{background:var(--plum)}
+.inline-actions{display:flex;gap:7px;flex-wrap:wrap}
+.footer{border-top:1px solid var(--line);padding:18px 5%;font-size:11px;color:var(--muted);display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.toast{position:fixed;bottom:22px;right:22px;max-width:360px;background:#202720;color:white;padding:14px 18px;border-radius:12px;box-shadow:0 10px 30px #0002;z-index:99;font-size:13px;line-height:1.5}
+.spinner{width:20px;height:20px;border:2px solid #dfe5dc;border-top-color:var(--green);border-radius:50%;animation:spin .7s linear infinite;display:inline-block}
+@keyframes spin{to{transform:rotate(360deg)}}
+@media(max-width:850px){.stats{grid-template-columns:repeat(2,minmax(0,1fr))}.two-col{grid-template-columns:1fr}.auth-card{grid-template-columns:1fr}.auth-art{min-height:250px;padding:28px}.auth-art h1{font-size:29px}.auth-form{padding:28px 22px}}
+@media(max-width:520px){.page{padding:25px 15px}.stats{gap:10px}.stat-number{font-size:24px}.card{padding:16px}.form-grid{grid-template-columns:1fr}.span-2{grid-column:auto}.topbar{padding:0 15px}.auth-wrap{padding:5px;margin:20px auto}.auth-art{min-height:220px}.top-right .small-muted{display:none}}
+</style>
+</head>
+<body>
+<div id="app" class="app">
+  <header class="topbar">
+    <div class="brand"><div class="brand-mark">T</div><span>Talent<em>Match</em></span></div>
+    <div class="top-right"><span id="header-user" class="small-muted">Recruitment intelligence</span><button id="logout-btn" class="btn btn-outline btn-sm hidden" onclick="logout()">Log out ↗</button></div>
+  </header>
+  <main id="main"><div class="empty"><span class="spinner"></span><p>Connecting to TalentMatch…</p></div></main>
+  <footer class="footer"><span>TalentMatch · Job matching and recruitment analytics</span><span>MongoDB · Node.js · Express</span></footer>
+</div>
+<div id="toast" class="toast hidden" role="status"></div>
+
+<script>
+const API = "/api";
+let token = localStorage.getItem("tm_token") || "";
+let currentUser = null;
+let currentTab = "overview";
+let candidateJobs = [];
+let recruiterJobs = [];
+let recruiterCandidates = [];
+let recruiterApplications = [];
+let candidateApplications = [];
+let recommendations = [];
+let analytics = null;
+let authRole = "candidate";
+let authMode = "login";
+let jobSearch = "";
+let matchResults = [];
+let matchJobId = "";
+let applicationFilter = "All";
+let busy = false;
+let toastTimer;
+
+const $ = id => document.getElementById(id);
+const esc = value => String(value ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const asArray = value => Array.isArray(value) ? value : [];
+const fmtDate = value => value ? new Date(value).toLocaleDateString("en-IN",{day:"numeric",month:"short",year:"numeric"}) : "—";
+const cap = value => String(value || "").replace(/([A-Z])/g," $1").replace(/^./,s=>s.toUpperCase());
+const pct = value => `${Math.max(0,Math.min(100,Number(value)||0)).toFixed(1)}%`;
+
+function toast(message) {
+  $("toast").textContent = message;
+  $("toast").classList.remove("hidden");
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => $("toast").classList.add("hidden"), 3500);
+}
+function showNotice(message,type="error") {
+  return `<div class="notice ${type}">${esc(message)}</div>`;
+}
+function skillsFrom(value) {
+  return String(value || "").split(",").map(s=>s.trim()).filter(Boolean);
+}
+function getErrorMessage(data, fallback) {
+  return data?.message || data?.error || fallback || "Something went wrong.";
+}
+async function api(path, options={}) {
+  const headers = {"Content-Type":"application/json",...(options.headers||{})};
+  if (token) headers.Authorization = `Bearer ${token}`;
+  let response;
+  try {
+    response = await fetch(API+path,{...options,headers});
+  } catch (error) {
+    throw new Error("Cannot reach the backend. Check that your Node.js server is running on port 3000.");
+  }
+  const data = await response.json().catch(()=>({}));
+  if (!response.ok || data.success === false) {
+    if (response.status===401 && token) {
+      token="";
+      localStorage.removeItem("tm_token");
+    }
+    throw new Error(getErrorMessage(data,`Request failed (${response.status}).`));
+  }
+  return data;
+}
+function setUser(user) {
+  currentUser = user;
+  localStorage.setItem("tm_user",JSON.stringify(user));
+}
+function logout() {
+  token="";
+  currentUser=null;
+  localStorage.removeItem("tm_token");
+  localStorage.removeItem("tm_user");
+  $("logout-btn").classList.add("hidden");
+  $("header-user").textContent="Recruitment intelligence";
+  renderAuth();
+}
+function switchRole(role) {
+  authRole=role;
+  renderAuth();
+}
+function switchMode(mode) {
+  authMode=mode;
+  renderAuth();
+}
+function renderAuth(message="",messageType="error") {
+  $("app").classList.remove("recruiter-theme");
+  $("logout-btn").classList.add("hidden");
+  $("header-user").textContent="Recruitment intelligence";
+  $("main").innerHTML=`
+  <div class="auth-wrap"><div class="auth-card">
+    <section class="auth-art ${authRole==="recruiter"?"recruiter-art":""}">
+      <div><span class="badge" style="background:#ffffff20;color:white">THE SMARTER WAY TO HIRE</span>
+        <h1>${authRole==="candidate"?"Your next opportunity starts with a better match.":"The right people. Less guesswork."}</h1>
+        <p>${authRole==="candidate"?"Discover jobs based on your actual skills, track applications and understand where you fit.":"Rank candidates by skill fit, manage your hiring pipeline and turn recruitment data into decisions."}</p>
+      </div>
+      <div><strong>✳ Skill-first recruitment</strong><p style="font-size:12px;margin:9px 0 0">Better matching. Clearer decisions. One workspace.</p></div>
+      <div class="art-orb"></div>
+    </section>
+    <section class="auth-form">
+      <div class="eyebrow">WELCOME TO TALENTMATCH</div>
+      <h2 style="margin:9px 0 5px">${authMode==="login"?"Good to see you again":"Create your account"}</h2>
+      <p class="muted" style="font-size:13px">${authMode==="login"?"Sign in to continue to your workspace.":"Set up your account to get started."}</p>
+      <div class="role-switch">
+        <button class="role-choice ${authRole==="candidate"?"active":""}" onclick="switchRole('candidate')">♧ Candidate</button>
+        <button class="role-choice recruiter ${authRole==="recruiter"?"active":""}" onclick="switchRole('recruiter')">▦ Recruiter</button>
+      </div>
+      <div class="tabs"><button class="tab ${authMode==="login"?"active":""}" onclick="switchMode('login')">Sign in</button><button class="tab ${authMode==="register"?"active":""}" onclick="switchMode('register')">Create account</button></div>
+      <div id="auth-message">${message?showNotice(message,messageType):""}</div>
+      <form id="auth-form" class="stack">
+        ${authMode==="register"&&authRole==="candidate"?`
+          <div class="field"><label>Full name</label><input name="name" placeholder="Your full name" required maxlength="100"></div>
+          <div class="form-grid">
+            <div class="field"><label>Education</label><input name="education" placeholder="e.g. B.Tech IT" required></div>
+            <div class="field"><label>Experience (years)</label><input name="experience" type="number" min="0" max="60" value="0" required></div>
+          </div>
+          <div class="field"><label>Skills (comma-separated)</label><input name="skills" placeholder="JavaScript, Python, MongoDB" required></div>
+          <div class="field"><label>Location</label><input name="location" placeholder="e.g. Bengaluru" required></div>
+        `:""}
+        <div class="field"><label>Email address</label><input name="email" type="email" placeholder="you@example.com" required autocomplete="email"></div>
+        <div class="field"><label>Password</label><input name="password" type="password" minlength="8" placeholder="At least 8 characters" required autocomplete="${authMode==="login"?"current-password":"new-password"}"></div>
+        ${authMode==="register"&&authRole==="recruiter"?`<div class="field"><label>Recruiter invitation code</label><input name="recruiterInviteCode" type="password" placeholder="Provided by your administrator" required></div>`:""}
+        <button class="btn ${authRole==="recruiter"?"btn-plum":"btn-primary"} full" id="auth-submit" type="submit">${authMode==="login"?"Sign in →":"Create account →"}</button>
+      </form>
+      <p class="small-muted" style="margin:16px 0 0;line-height:1.6">Your workspace uses role-based access. Candidate and recruiter features are kept separate.</p>
+    </section>
+  </div></div>`;
+  $("auth-form").addEventListener("submit",submitAuth);
+}
+async function submitAuth(event) {
+  event.preventDefault();
+  const form=event.currentTarget;
+  const fd=new FormData(form);
+  const payload=Object.fromEntries(fd.entries());
+  const button=$("auth-submit");
+  button.disabled=true;button.textContent="Please wait…";
+  try {
+    let data;
+    if(authMode==="login") {
+      data=await api("/auth/login",{method:"POST",body:JSON.stringify({email:payload.email,password:payload.password})});
+    } else {
+      payload.role=authRole;
+      if(authRole==="candidate") {
+        payload.experience=Number(payload.experience);
+        payload.skills=skillsFrom(payload.skills);
+      }
+      data=await api("/auth/register",{method:"POST",body:JSON.stringify(payload)});
+    }
+    if(!data.token) throw new Error("The server did not return a login token.");
+    token=data.token;
+    localStorage.setItem("tm_token",token);
+    const me=await api("/auth/me");
+    setUser(me.user || me.account || me);
+    await renderDashboard();
+  } catch(error) {
+    const msg=$("auth-message");
+    if(msg)msg.innerHTML=showNotice(error.message);
+    button.disabled=false;
+    button.textContent=authMode==="login"?"Sign in →":"Create account →";
+  }
+}
+function headerForUser() {
+  $("header-user").textContent=`${currentUser?.email||""} · ${currentUser?.role==="recruiter"?"Recruiter":"Candidate"}`;
+  $("logout-btn").classList.remove("hidden");
+  $("app").classList.toggle("recruiter-theme",currentUser?.role==="recruiter");
+}
+async function renderDashboard() {
+  if(!currentUser){renderAuth();return;}
+  headerForUser();
+  if(currentUser.role==="recruiter") await renderRecruiter();
+  else await renderCandidate();
+}
+function dashboardHeading(title,subtitle) {
+  return `<div class="dashboard-header"><div><div class="eyebrow">${currentUser.role==="recruiter"?"RECRUITER WORKSPACE":"CANDIDATE WORKSPACE"}</div><h1>${title}</h1><p class="subtitle">${subtitle}</p></div></div>`;
+}
+function statCard(label,value,note="From your current workspace") {
+  return `<div class="card"><div class="stat-label">${label}</div><div class="stat-number">${esc(value)}</div><div class="stat-note">${esc(note)}</div></div>`;
+}
+function navBar(tabs) {
+  return `<nav class="nav-tabs">${tabs.map(t=>`<button class="nav-tab ${currentTab===t.id?"active":""}" onclick="goTab('${t.id}')">${t.label}</button>`).join("")}</nav>`;
+}
+async function goTab(tab) {
+  currentTab=tab;
+  await renderDashboard();
+}
+async function renderCandidate() {
+  $("main").innerHTML=`<div class="page"><div class="empty"><span class="spinner"></span><p>Loading your workspace…</p></div></div>`;
+  try {
+    const [jobData,appData,meData]=await Promise.all([
+      api("/jobs/manage"),
+      api("/applications"),
+      api("/auth/me")
+    ]);
+    candidateJobs=jobData.jobs||jobData.data||[];
+    candidateApplications=appData.applications||appData.data||[];
+    const me=meData.user||meData.account||meData;
+    if(me.candidate) currentUser={...currentUser,...me,candidate:me.candidate};
+    else currentUser={...currentUser,...me};
+    setUser(currentUser);
+    if(currentUser.candidateId) {
+      try {
+        const matchData=await api(`/matching/candidates/${encodeURIComponent(currentUser.candidateId)}/jobs`);
+        recommendations=matchData.recommendations||matchData.jobs||[];
+      } catch(e) { recommendations=[]; }
+    }
+    renderCandidateContent();
+  } catch(error) {
+    $("main").innerHTML=`<div class="page">${dashboardHeading("Your workspace","We could not load your candidate data.")}${showNotice(error.message)}<button class="btn btn-primary" onclick="renderCandidate()">Try again</button></div>`;
+  }
+}
+function renderCandidateContent() {
+  const candidate=currentUser?.candidate||{};
+  const tabs=[{id:"overview",label:"Overview"},{id:"jobs",label:"Explore jobs"},{id:"applications",label:"My applications"},{id:"profile",label:"My profile"}];
+  let body="";
+  if(currentTab==="overview") {
+    body=`<div class="grid stats">${statCard("Active opportunities",candidateJobs.length,"Currently published jobs")}${statCard("Applications",candidateApplications.length,"Jobs you have applied to")}${statCard("Recommendations",recommendations.length,"Based on your skill profile")}${statCard("Shortlisted",candidateApplications.filter(a=>a.status==="Shortlisted").length,"Applications shortlisted")}</div>
+      <div class="grid two-col"><section class="card"><div class="section-head"><h2>Recommended for you</h2><button class="btn btn-light btn-sm" onclick="goTab('jobs')">Explore all →</button></div>${recommendations.length?recommendations.slice(0,3).map(recommendationCard).join(""):emptyBlock("No recommendations yet","Add skills to your profile and check back when jobs are available.")}</section>
+      <section class="card"><div class="section-head"><h2>Application activity</h2><button class="btn btn-light btn-sm" onclick="goTab('applications')">View all</button></div>${candidateApplications.length?candidateApplications.slice(0,5).map(a=>applicationMini(a)).join(""):emptyBlock("Nothing submitted yet","Apply to a suitable job to begin tracking your progress.")}</section></div>`;
+  } else if(currentTab==="jobs") {
+    const filtered=candidateJobs.filter(j=>`${j.title} ${j.company} ${j.location} ${(j.requiredSkills||[]).join(" ")}`.toLowerCase().includes(jobSearch.toLowerCase()));
+    body=`<section class="card"><div class="section-head"><h2>Explore opportunities</h2><span class="badge green">${filtered.length} jobs</span></div><div class="toolbar"><input class="search" placeholder="Search title, company, location or skill…" value="${esc(jobSearch)}" oninput="jobSearch=this.value;renderCandidateJobList()"></div><div id="candidate-job-list">${renderJobList(filtered)}</div></section>`;
+  } else if(currentTab==="applications") {
+    body=`<section class="card"><div class="section-head"><h2>Your applications</h2><span class="badge green">${candidateApplications.length} total</span></div>${candidateApplications.length?`<div class="table-wrap"><table><thead><tr><th>Position</th><th>Company</th><th>Applied</th><th>Status</th></tr></thead><tbody>${candidateApplications.map(a=>`<tr><td><strong>${esc(a.job?.title||"Job unavailable")}</strong></td><td>${esc(a.job?.company||"—")}</td><td>${fmtDate(a.appliedAt)}</td><td>${statusBadge(a.status)}</td></tr>`).join("")}</tbody></table></div>`:emptyBlock("No applications yet","Explore jobs and submit your first application.")}</section>`;
+  } else {
+    body=`<div class="grid two-col"><section class="card"><h2>Candidate profile</h2><p class="muted" style="font-size:13px">Your registered profile powers personalized skill matching.</p><div class="stack">${profileRow("Full name",candidate.name||currentUser.name||"—")}${profileRow("Email",currentUser.email||candidate.email||"—")}${profileRow("Education",candidate.education||"—")}${profileRow("Experience",`${candidate.experience??0} years`)}${profileRow("Location",candidate.location||"—")}<div><div class="stat-label">Skills</div><div class="skill-list">${asArray(candidate.skills).length?candidate.skills.map(s=>`<span class="skill">${esc(s)}</span>`).join(""):"No skills listed"}</div></div></div></section><section class="card"><h2>Profile tips</h2><p class="muted" style="font-size:13px;line-height:1.7">Recruiters compare your listed skills against job requirements. Include accurate, relevant skills so your match scores are meaningful.</p><div class="notice info">Profile editing is not enabled in this version. Ask your project administrator to update your record in MongoDB.</div></section></div>`;
+  }
+  $("main").innerHTML=`<div class="page">${dashboardHeading(`Hello, ${esc(candidate.name||currentUser.name||"Candidate").split(" ")[0]}`,"Find opportunities that match your skills, and keep your applications organised.")}${navBar(tabs)}${body}</div>`;
+}
+function profileRow(label,value){return `<div style="border-bottom:1px solid var(--line);padding-bottom:12px"><div class="stat-label">${esc(label)}</div><div style="font-size:14px;margin-top:6px;overflow-wrap:anywhere">${esc(value)}</div></div>`}
+function emptyBlock(title,description) {return `<div class="empty"><div class="empty-icon">⌁</div><strong>${esc(title)}</strong><p style="margin:8px 0 0">${esc(description)}</p></div>`}
+function statusBadge(status) {
+  const color={"Shortlisted":"green","Accepted":"green","Under Review":"amber","Rejected":"red","Pending":""}[status]||"";
+  return `<span class="badge ${color}">${esc(status||"Pending")}</span>`;
+}
+function recommendationCard(item) {
+  const j=item.job||item;
+  const score=Number(item.matchPercentage??item.matchScore??0);
+  const matched=asArray(item.matchedSkills);
+  const missing=asArray(item.missingSkills);
+  return `<article class="job-card"><div class="job-top"><div><h3>${esc(j.title||"Untitled role")}</h3><div class="muted" style="font-size:12px">${esc(j.company||"Company not specified")}</div></div><span class="badge green">${pct(score)} match</span></div><div class="job-meta"><span>⌖ ${esc(j.location||"Location flexible")}</span><span>◷ ${esc(j.experience??0)} years experience</span></div><div class="match-line"><div class="progress"><span style="width:${Math.max(0,Math.min(100,score))}%"></span></div><span class="match-value">${pct(score)}</span></div>${matched.length?`<div class="skill-list">${matched.map(s=>`<span class="skill matched">✓ ${esc(s)}</span>`).join("")}</div>`:""}<button class="btn btn-primary btn-sm" onclick="applyForJob('${esc(j._id||j.id)}')">Apply for this role →</button></article>`;
+}
+function renderJobList(jobs) {
+  if(!jobs.length)return emptyBlock("No jobs found","Try another search or check back later.");
+  return jobs.map(j=>`<article class="job-card"><div class="job-top"><div><h3>${esc(j.title)}</h3><div class="muted" style="font-size:12px">${esc(j.company||"Company not specified")}</div></div><span class="badge">${esc(j.experience??0)}+ yrs</span></div><div class="job-meta"><span>⌖ ${esc(j.location||"Not specified")}</span><span>🎓 ${esc(j.education||"Not specified")}</span><span>Posted ${fmtDate(j.createdAt)}</span></div><p class="job-description">${esc(j.description||"No description provided.")}</p><div class="skill-list">${asArray(j.requiredSkills).map(s=>`<span class="skill">${esc(s)}</span>`).join("")}</div><div class="inline-actions"><button class="btn btn-primary btn-sm" onclick="applyForJob('${esc(j._id)}')">Apply now →</button></div></article>`).join("");
+}
+function renderCandidateJobList() {
+  const node=$("candidate-job-list");
+  if(node)node.innerHTML=renderJobList(candidateJobs.filter(j=>`${j.title} ${j.company} ${j.location} ${(j.requiredSkills||[]).join(" ")}`.toLowerCase().includes(jobSearch.toLowerCase())));
+}
+async function applyForJob(jobId) {
+  if(!jobId)return toast("This job has no valid ID.");
+  if(!confirm("Submit your application for this job?"))return;
+  try {
+    await api("/applications",{method:"POST",body:JSON.stringify({jobId})});
+    toast("Application submitted successfully.");
+    await renderCandidate();
+  } catch(error) {toast(error.message);}
+}
+function applicationMini(a) {
+  return `<div style="display:flex;justify-content:space-between;align-items:center;gap:10px;border-bottom:1px solid var(--line);padding:12px 0"><div><strong style="font-size:13px">${esc(a.job?.title||"Job application")}</strong><div class="small-muted" style="margin-top:5px">${fmtDate(a.appliedAt)}</div></div>${statusBadge(a.status)}</div>`;
+}
+
+async function renderRecruiter() {
+  $("main").innerHTML=`<div class="page"><div class="empty"><span class="spinner"></span><p>Loading recruitment analytics…</p></div></div>`;
+  try {
+    const results=await Promise.allSettled([
+      api("/analytics/summary"),
+      api("/jobs/manage"),
+      api("/candidates"),
+      api("/applications")
+    ]);
+    analytics=results[0].status==="fulfilled"?(results[0].value.analytics||results[0].value.summary||results[0].value):null;
+    recruiterJobs=results[1].status==="fulfilled"?(results[1].value.jobs||results[1].value.data||[]):[];
+    recruiterCandidates=results[2].status==="fulfilled"?(results[2].value.candidates||results[2].value.data||[]):[];
+    recruiterApplications=results[3].status==="fulfilled"?(results[3].value.applications||results[3].value.data||[]):[];
+    renderRecruiterContent(results.filter(r=>r.status==="rejected").map(r=>r.reason.message));
+  } catch(error) {
+    $("main").innerHTML=`<div class="page">${dashboardHeading("Recruitment dashboard","Monitor hiring activity and manage your openings.")}${showNotice(error.message)}<button class="btn btn-primary" onclick="renderRecruiter()">Try again</button></div>`;
+  }
+}
+function renderRecruiterContent(errors=[]) {
+  const tabs=[{id:"overview",label:"Overview & analytics"},{id:"jobs",label:"Manage jobs"},{id:"candidates",label:"Candidates & matching"},{id:"applications",label:"Applications"}];
+  let body="";
+  if(currentTab==="overview") {
+    const overview=analytics?.overview||analytics?.stats||analytics||{};
+    const statusData=analytics?.applicationStatuses||analytics?.applicationStatusDistribution||analytics?.statusDistribution||[];
+    const skills=analytics?.mostDemandedSkills||analytics?.topSkills||[];
+    const average=overview.averageMatchScore??overview.averageMatchPercentage??analytics?.averageMatchScore??0;
+    body=`<div class="grid stats">${statCard("Candidate profiles",overview.totalCandidates??recruiterCandidates.length,"Registered candidates")}${statCard("Active job openings",overview.totalActiveJobs??recruiterJobs.length,"Currently published")}${statCard("Applications",overview.totalApplications??recruiterApplications.length,"Across all openings")}${statCard("Average skill match",pct(average),"Across matching results")}</div>
+      <div class="grid two-col"><section class="card"><div class="section-head"><h2>Application pipeline</h2><span class="badge plum">Current status</span></div>${statusData.length?statusData.map(s=>{const label=s._id||s.status||s.name||"Other";const count=s.count??s.total??s.value??0;const total=Math.max(1,Number(overview.totalApplications??recruiterApplications.length));return `<div style="margin:17px 0"><div class="section-head" style="margin-bottom:8px"><span style="font-size:13px">${esc(label)}</span><strong>${count}</strong></div><div class="progress plum"><span style="width:${Math.min(100,count/total*100)}%"></span></div></div>`}).join(""):emptyBlock("No pipeline data","Application statuses will appear as candidates apply.")}</section>
+      <section class="card"><div class="section-head"><h2>Most demanded skills</h2></div>${skills.length?skills.slice(0,8).map(s=>{const name=s._id||s.skill||s.name||"Skill";const count=s.count??s.total??s.value??0;return `<div style="display:flex;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--line);font-size:13px"><span>${esc(name)}</span><strong>${count}</strong></div>`}).join(""):emptyBlock("No skill trends yet","Add jobs with required skills to build recruitment insights.")}</section></div>
+      ${errors.length?showNotice("Some panels could not load: "+errors.join(" · "),"info"):""}`;
+  } else if(currentTab==="jobs") {
+    body=`<div class="grid two-col"><section class="card"><h2>Publish a job</h2><p class="muted" style="font-size:13px">New jobs become available to candidates immediately.</p><div id="job-form-message"></div><form id="job-form" class="stack"><div class="field"><label>Job title</label><input name="title" required placeholder="e.g. Junior Backend Developer"></div><div class="field"><label>Company</label><input name="company" required placeholder="Company name"></div><div class="field"><label>Job description</label><textarea name="description" required placeholder="Responsibilities and expectations"></textarea></div><div class="form-grid"><div class="field"><label>Location</label><input name="location" required placeholder="Bengaluru"></div><div class="field"><label>Minimum experience (years)</label><input name="experience" type="number" min="0" max="60" value="0" required></div></div><div class="field"><label>Education</label><input name="education" placeholder="e.g. B.Tech or equivalent"></div><div class="field"><label>Required skills (comma-separated)</label><input name="requiredSkills" required placeholder="Node.js, MongoDB, JavaScript"></div><button class="btn btn-primary full" type="submit">＋ Publish job</button></form></section>
+      <section class="card"><div class="section-head"><h2>Your active openings</h2><span class="badge plum">${recruiterJobs.length}</span></div>${recruiterJobs.length?recruiterJobs.map(j=>`<article class="job-card"><h3>${esc(j.title)}</h3><div class="job-meta"><span>${esc(j.company)}</span><span>${esc(j.location)}</span></div><div class="skill-list">${asArray(j.requiredSkills).map(s=>`<span class="skill">${esc(s)}</span>`).join("")}</div><div class="inline-actions"><button class="btn btn-light btn-sm" onclick="viewMatches('${esc(j._id)}')">Rank candidates</button><button class="btn btn-danger btn-sm" onclick="archiveJob('${esc(j._id)}')">Archive</button></div></article>`).join(""):emptyBlock("No active openings","Publish your first job using the form.")}</section></div>`;
+  } else if(currentTab==="candidates") {
+    body=`<section class="card"><div class="section-head"><h2>Candidate directory</h2><span class="badge plum">${recruiterCandidates.length} profiles</span></div><div class="toolbar"><input class="search" id="candidate-search" placeholder="Search name, skill, education or location…" oninput="filterCandidates()"><select id="match-job-select" class="search" style="max-width:280px" onchange="matchJobId=this.value;if(matchJobId)viewMatches(matchJobId)"><option value="">Rank candidates for a job…</option>${recruiterJobs.map(j=>`<option value="${esc(j._id)}">${esc(j.title)} — ${esc(j.company)}</option>`).join("")}</select></div><div id="candidate-directory">${renderCandidateTable(recruiterCandidates)}</div><div id="match-results" style="margin-top:20px"></div></section>`;
+  } else {
+    body=`<section class="card"><div class="section-head"><h2>Application management</h2><span class="badge plum">${recruiterApplications.length} applications</span></div><div class="toolbar"><select class="search" style="max-width:240px" onchange="applicationFilter=this.value;renderApplicationTable()"><option>All</option><option>Pending</option><option>Under Review</option><option>Shortlisted</option><option>Rejected</option><option>Accepted</option></select></div><div id="application-table">${renderApplicationTableHTML()}</div></section>`;
+  }
+  $("main").innerHTML=`<div class="page">${dashboardHeading("Recruitment, made clearer.","Manage live openings, compare candidates against required skills and track the hiring pipeline.")}${navBar(tabs)}${body}</div>`;
+  if(currentTab==="jobs")$("job-form")?.addEventListener("submit",submitJob);
+}
+function renderCandidateTable(candidates) {
+  if(!candidates.length)return emptyBlock("No candidate profiles","Candidates who register will appear here.");
+  return `<div class="table-wrap"><table><thead><tr><th>Candidate</th><th>Education</th><th>Experience</th><th>Skills</th><th>Location</th></tr></thead><tbody>${candidates.map(c=>`<tr><td><strong>${esc(c.name||"Candidate")}</strong><div class="small-muted">${esc(c.email||"")}</div></td><td>${esc(c.education||"—")}</td><td>${esc(c.experience??0)} yrs</td><td>${asArray(c.skills).slice(0,5).map(s=>`<span class="skill">${esc(s)}</span>`).join(" ")}</td><td>${esc(c.location||"—")}</td></tr>`).join("")}</tbody></table></div>`;
+}
+function filterCandidates() {
+  const q=($("candidate-search")?.value||"").toLowerCase();
+  const filtered=recruiterCandidates.filter(c=>`${c.name} ${c.email} ${c.education} ${c.location} ${(c.skills||[]).join(" ")}`.toLowerCase().includes(q));
+  const node=$("candidate-directory");if(node)node.innerHTML=renderCandidateTable(filtered);
+}
+async function submitJob(event) {
+  event.preventDefault();
+  const form=event.currentTarget;
+  const fd=new FormData(form);
+  const payload=Object.fromEntries(fd.entries());
+  payload.experience=Number(payload.experience);
+  payload.requiredSkills=skillsFrom(payload.requiredSkills);
+  try {
+    await api("/jobs/manage",{method:"POST",body:JSON.stringify(payload)});
+    toast("Job published successfully.");
+    await renderRecruiter();
+  } catch(error) {
+    const node=$("job-form-message");if(node)node.innerHTML=showNotice(error.message);
+  }
+}
+async function archiveJob(jobId) {
+  if(!confirm("Archive this job? Candidates will no longer be able to apply."))return;
+  try {
+    await api(`/jobs/manage/${encodeURIComponent(jobId)}`,{method:"DELETE"});
+    toast("Job archived.");
+    await renderRecruiter();
+  } catch(error) {toast(error.message);}
+}
+async function viewMatches(jobId) {
+  matchJobId=jobId;
+  const select=$("match-job-select");if(select)select.value=jobId;
+  const node=$("match-results");
+  if(node)node.innerHTML=`<div class="empty"><span class="spinner"></span><p>Ranking candidates by skill match…</p></div>`;
+  try {
+    const data=await api(`/matching/jobs/${encodeURIComponent(jobId)}/candidates`);
+    matchResults=data.candidates||data.matches||[];
+    if(node)node.innerHTML=`<div class="section-head"><h2>Candidate skill ranking</h2><span class="badge plum">${matchResults.length} candidates</span></div>${matchResults.length?matchResults.map(m=>{const c=m.candidate||m;const score=m.matchPercentage??m.matchScore??0;return `<article class="job-card"><div class="job-top"><div><h3>${esc(c.name||"Candidate")}</h3><div class="muted" style="font-size:12px">${esc(c.email||"")} · ${esc(c.location||"")}</div></div><span class="badge plum">${pct(score)} match</span></div><div class="job-meta"><span>${esc(c.education||"Education not listed")}</span><span>${esc(c.experience??0)} yrs experience</span></div><div class="match-line"><div class="progress plum"><span style="width:${Math.max(0,Math.min(100,Number(score)||0))}%"></span></div><strong class="match-value">${pct(score)}</strong></div><div class="skill-list">${asArray(m.matchedSkills).map(s=>`<span class="skill matched">✓ ${esc(s)}</span>`).join("")}${asArray(m.missingSkills).map(s=>`<span class="skill missing">＋ ${esc(s)}</span>`).join("")}</div></article>`}).join(""):emptyBlock("No candidates to rank","Register candidate profiles with skills to generate matching results.")}`;
+  } catch(error) {if(node)node.innerHTML=showNotice(error.message);}
+}
+function renderApplicationTableHTML() {
+  const apps=recruiterApplications.filter(a=>applicationFilter==="All"||a.status===applicationFilter);
+  if(!apps.length)return emptyBlock("No applications found","Application records will appear here after candidates apply.");
+  return `<div class="table-wrap"><table><thead><tr><th>Candidate</th><th>Job</th><th>Applied</th><th>Current status</th><th>Update status</th></tr></thead><tbody>${apps.map(a=>`<tr><td><strong>${esc(a.candidate?.name||"Candidate")}</strong><div class="small-muted">${esc(a.candidate?.email||"")}</div></td><td>${esc(a.job?.title||"Job unavailable")}<div class="small-muted">${esc(a.job?.company||"")}</div></td><td>${fmtDate(a.appliedAt)}</td><td>${statusBadge(a.status)}</td><td><select aria-label="Update application status" class="search" style="min-width:145px;padding:8px" onchange="updateApplicationStatus('${esc(a._id)}',this.value)">${["Pending","Under Review","Shortlisted","Rejected","Accepted"].map(s=>`<option ${a.status===s?"selected":""}>${s}</option>`).join("")}</select></td></tr>`).join("")}</tbody></table></div>`;
+}
+function renderApplicationTable() {const node=$("application-table");if(node)node.innerHTML=renderApplicationTableHTML();}
+async function updateApplicationStatus(id,status) {
+  try {
+    await api(`/applications/${encodeURIComponent(id)}/status`,{method:"PATCH",body:JSON.stringify({status})});
+    toast("Application status updated.");
+    await renderRecruiter();
+  } catch(error) {toast(error.message);await renderRecruiter();}
+}
+
+async function init() {
+  if(!token){renderAuth();return;}
+  try {
+    const data=await api("/auth/me");
+    currentUser=data.user||data.account||data;
+    setUser(currentUser);
+    await renderDashboard();
+  } catch(error) {
+    token="";
+    localStorage.removeItem("tm_token");
+    localStorage.removeItem("tm_user");
+    renderAuth("Your session expired. Please sign in again.","info");
+  }
+}
+init();
+</script>
+</body>
+</html>
