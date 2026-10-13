@@ -262,7 +262,14 @@ td strong{font-size:12px}
 
 @keyframes spin{to{transform:rotate(360deg)}}
 
-@media(max-width:850px){.stats{grid-template-columns:repeat(2,minmax(0,1fr))}.two-col{grid-template-columns:1fr}.auth-card{grid-template-columns:1fr}.auth-art{min-height:250px;padding:28px}.auth-art h1{font-size:29px}.auth-form{padding:28px 22px}}
+@media(max-width:850px){.stats{grid-template-columns:repeat(2,minmax(0,1fr))}.two-col{grid-template-columns:1fr}.auth-art{padding:34px 28px}.auth-art h1{font-size:30px}.auth-form{padding:32px 28px}}
+
+/* Desktop/laptop authentication layout: promotional panel left, form right. */
+.auth-wrap{width:min(1200px, calc(100% - 48px));max-width:1200px;margin:32px auto;padding:16px}
+.auth-card{display:grid !important;grid-template-columns:minmax(0,1fr) minmax(0,1fr) !important;align-items:stretch;min-height:620px;width:100%}
+.auth-card > .auth-art{grid-column:1;grid-row:1;min-width:0;min-height:620px;padding:48px 42px}
+.auth-card > .auth-form{grid-column:2;grid-row:1;min-width:0;padding:42px;align-self:stretch}
+@media(max-width:640px){.auth-wrap{width:100%;padding:5px;margin:20px auto}.auth-card{grid-template-columns:minmax(0,1fr) !important}.auth-card > .auth-art{grid-column:1;grid-row:1;min-height:220px;padding:28px}.auth-card > .auth-art h1{font-size:27px}.auth-card > .auth-form{grid-column:1;grid-row:2;padding:26px 22px}}
 
 @media(max-width:520px){.page{padding:25px 15px}.stats{gap:10px}.stat-number{font-size:24px}.card{padding:16px}.form-grid{grid-template-columns:1fr}.span-2{grid-column:auto}.topbar{padding:0 15px}.auth-wrap{padding:5px;margin:20px auto}.auth-art{min-height:220px}.top-right .small-muted{display:none}}
 
