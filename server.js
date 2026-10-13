@@ -293,6 +293,79 @@ app.post("/api/candidates/register", (req, res) => {
     });
 });
 
+// Candidate profile editing: candidates may update only their own linked profile.
+app.put(
+    "/api/candidates/me",
+    protect,
+    allowRoles("candidate"),
+    async (req, res) => {
+        try {
+            const candidateId = req.user.candidateId;
+            if (!candidateId || !mongoose.isValidObjectId(candidateId)) {
+                return res.status(403).json({
+                    success: false,
+                    message: "No valid candidate profile is linked to this account."
+                });
+            }
+
+            const { name, education, experience, location, skills } = req.body;
+
+            if (typeof name !== "string" || !name.trim()) {
+                return res.status(400).json({ success: false, message: "Full name is required." });
+            }
+            if (typeof education !== "string" || !education.trim()) {
+                return res.status(400).json({ success: false, message: "Education is required." });
+            }
+            if (typeof location !== "string" || !location.trim()) {
+                return res.status(400).json({ success: false, message: "Location is required." });
+            }
+            if (!Number.isFinite(Number(experience)) || Number(experience) < 0 || Number(experience) > 60) {
+                return res.status(400).json({ success: false, message: "Experience must be between 0 and 60 years." });
+            }
+            if (!Array.isArray(skills) || !skills.every(skill => typeof skill === "string")) {
+                return res.status(400).json({ success: false, message: "Skills must be provided as a list of strings." });
+            }
+
+            const normalizedSkills = [...new Set(
+                skills.map(skill => skill.trim()).filter(Boolean)
+            )];
+            if (!normalizedSkills.length) {
+                return res.status(400).json({ success: false, message: "Add at least one skill." });
+            }
+
+            const candidate = await Candidate.findByIdAndUpdate(
+                candidateId,
+                {
+                    $set: {
+                        name: name.trim(),
+                        education: education.trim(),
+                        experience: Number(experience),
+                        location: location.trim(),
+                        skills: normalizedSkills
+                    }
+                },
+                { new: true, runValidators: true }
+            ).select("name email education experience skills location createdAt");
+
+            if (!candidate) {
+                return res.status(404).json({ success: false, message: "Candidate profile not found." });
+            }
+
+            return res.json({
+                success: true,
+                message: "Profile updated successfully.",
+                candidate
+            });
+        } catch (error) {
+            console.error("Update candidate profile error:", error.message);
+            return res.status(500).json({
+                success: false,
+                message: "Could not update your profile."
+            });
+        }
+    }
+);
+
 // 7. Registered candidates (recruiters only)
 app.get(
     "/api/candidates",
@@ -323,6 +396,80 @@ app.get(
         }
     }
 );
+
+
+app.put(
+  "/api/candidates/me",
+  protect,
+  allowRoles("candidate"),
+  async (req, res) => {
+    try {
+      const candidateId = req.user.candidateId;
+
+      if (!candidateId) {
+        return res.status(403).json({
+          success: false,
+          message: "No candidate profile is linked to this account."
+        });
+      }
+
+      const { name, education, experience, location, skills } = req.body;
+
+      if (
+        typeof name !== "string" || !name.trim() ||
+        typeof education !== "string" || !education.trim() ||
+        typeof location !== "string" || !location.trim() ||
+        !Array.isArray(skills) ||
+        !skills.every(skill => typeof skill === "string" && skill.trim()) ||
+        !Number.isFinite(Number(experience)) ||
+        Number(experience) < 0 ||
+        Number(experience) > 60
+      ) {
+        return res.status(400).json({
+          success: false,
+          message: "Enter a valid name, education, experience, location and skills."
+        });
+      }
+
+      const candidate = await Candidate.findByIdAndUpdate(
+        candidateId,
+        {
+          $set: {
+            name: name.trim(),
+            education: education.trim(),
+            experience: Number(experience),
+            location: location.trim(),
+            skills: [...new Set(
+              skills.map(skill => skill.trim()).filter(Boolean)
+            )]
+          }
+        },
+        { new: true, runValidators: true }
+      );
+
+      if (!candidate) {
+        return res.status(404).json({
+          success: false,
+          message: "Candidate profile not found."
+        });
+      }
+
+      return res.json({
+        success: true,
+        message: "Profile updated successfully.",
+        candidate
+      });
+    } catch (error) {
+      console.error("Profile update error:", error.message);
+
+      return res.status(500).json({
+        success: false,
+        message: "Could not update your profile."
+      });
+    }
+  }
+);
+
 
 // 8. Connect to MongoDB, then start the server
 connectDB()
